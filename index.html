@@ -374,6 +374,99 @@ footer .wrap{display:grid;gap:1.1rem}
   padding-top:1.1rem;border-top:1px solid var(--line-2);font-size:.78rem;
 }
 
+/* ============================================================
+   MYLIVECHAT WIDGET — SITE BLUE BRAND MATCH
+   ------------------------------------------------------------
+   Site palette:
+     Primary  #2563eb
+     Deep     #1d4ed8
+     Accent   #06b6d4
+   The rules below recolour every MyLiveChat element that is
+   injected into THIS document (launcher button, labels, links,
+   focus rings, etc.). The chat window itself is rendered inside
+   a cross-origin iframe from mylivechat.com, so page CSS cannot
+   reach it — set the same hex values in the MyLiveChat dashboard
+   (Campaign ▸ Chat Window ▸ Theme colour) for a perfect match.
+   ============================================================ */
+:root{
+  --mlc-primary:#2563eb;
+  --mlc-primary-deep:#1d4ed8;
+  --mlc-accent:#06b6d4;
+  --mlc-glow:0 14px 30px -12px rgba(37,99,235,.85);
+}
+
+/* Floating launcher / chat button */
+#mylivechat_button,
+#MyLiveChat_Button,
+.mylivechat_button,
+.MyLiveChat_Button,
+[id*="mylivechat" i][id*="button" i],
+[class*="mylivechat" i][class*="button" i],
+[id*="mylivechat" i][class*="launcher" i],
+[class*="mylivechat" i][class*="launcher" i],
+[id*="mylivechat" i][class*="invite" i],
+[class*="mylivechat" i][class*="invite" i]{
+  background:linear-gradient(135deg,var(--mlc-primary),var(--mlc-primary-deep)) !important;
+  border-color:var(--mlc-primary-deep) !important;
+  color:#fff !important;
+  border-radius:13px !important;
+  box-shadow:var(--mlc-glow) !important;
+  transition:transform .16s,box-shadow .22s !important;
+}
+#mylivechat_button:hover,
+#MyLiveChat_Button:hover,
+.mylivechat_button:hover,
+.MyLiveChat_Button:hover,
+[id*="mylivechat" i][id*="button" i]:hover,
+[class*="mylivechat" i][class*="button" i]:hover,
+[id*="mylivechat" i][class*="launcher" i]:hover,
+[class*="mylivechat" i][class*="launcher" i]:hover{
+  transform:translateY(-2px) !important;
+  box-shadow:0 20px 38px -12px rgba(37,99,235,.95) !important;
+}
+
+/* Any MyLiveChat header / title bar / toolbar rendered in-page */
+[id*="mylivechat" i][class*="header" i],
+[class*="mylivechat" i][class*="header" i],
+[id*="mylivechat" i][class*="titlebar" i],
+[class*="mylivechat" i][class*="titlebar" i],
+[id*="mylivechat" i][class*="title" i],
+[class*="mylivechat" i][class*="title" i]{
+  background:linear-gradient(135deg,var(--mlc-primary),var(--mlc-primary-deep)) !important;
+  border-color:var(--mlc-primary-deep) !important;
+  color:#fff !important;
+}
+
+/* Accent elements: links, send buttons, active tabs, badges */
+[id*="mylivechat" i] a,
+[class*="mylivechat" i] a{
+  color:var(--mlc-primary) !important;
+}
+[id*="mylivechat" i] a:hover,
+[class*="mylivechat" i] a:hover{
+  color:var(--mlc-primary-deep) !important;
+}
+[id*="mylivechat" i] [class*="send" i],
+[class*="mylivechat" i] [class*="send" i],
+[id*="mylivechat" i] [class*="submit" i],
+[class*="mylivechat" i] [class*="submit" i],
+[id*="mylivechat" i] [class*="active" i],
+[class*="mylivechat" i] [class*="active" i],
+[id*="mylivechat" i] [class*="badge" i],
+[class*="mylivechat" i] [class*="badge" i]{
+  background:linear-gradient(135deg,var(--mlc-primary),var(--mlc-primary-deep)) !important;
+  background-color:var(--mlc-primary) !important;
+  border-color:var(--mlc-primary-deep) !important;
+  color:#fff !important;
+}
+
+/* Focus rings to match the rest of the form */
+[id*="mylivechat" i] :focus-visible,
+[class*="mylivechat" i] :focus-visible{
+  outline:2px solid var(--mlc-primary) !important;
+  outline-offset:2px !important;
+}
+
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important}
   html{scroll-behavior:auto}
